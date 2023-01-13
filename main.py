@@ -3,6 +3,7 @@ Simple streamlit application created as part of the Snowflake Data Application B
 """
 import pandas as pd
 import requests
+import snowflake.connector
 import streamlit
 
 
