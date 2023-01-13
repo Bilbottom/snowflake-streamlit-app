@@ -60,6 +60,7 @@ def main() -> None:
     add_text()
     add_fruit_selection()
     add_fruityvice_table()
+    add_snowflake_user_details()
 
 
 if __name__ == "__main__":
