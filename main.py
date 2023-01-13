@@ -5,7 +5,7 @@ import pandas as pd
 import requests
 import snowflake.connector
 import streamlit
-from urllib.error import URLError
+import urllib.error
 
 
 def add_text() -> None:
@@ -46,8 +46,10 @@ def add_fruityvice_table() -> None:
 
             fruityvice_normalized = pd.json_normalize(requests.get(endpoint).json())
             streamlit.dataframe(fruityvice_normalized)
+    except urllib.error.URLError as e:
+        streamlit.error()
 
-
+            
 def add_snowflake_user_details(cursor) -> None:
     """
     Writie details about the Snowflake user currently connected.
