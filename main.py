@@ -77,7 +77,6 @@ def add_fruit_to_load_list(cursor) -> None:
     fruit_choice = streamlit.text_input("Which fruit would you like to add to the list?", "Jackfruit")
     
     streamlit.write(f"Thanks for adding {fruit_choice}")
-    
     cursor.execute(f"""
         INSERT INTO PC_RIVERY_DB.PUBLIC.FRUIT_LOAD_LIST
         VALUES ('{fruit_choice}')
@@ -95,8 +94,12 @@ def main() -> None:
     add_fruit_selection()
     add_fruityvice_table()
     add_snowflake_user_details(cursor=snow_curr)
-    add_fruit_load_list(cursor=snow_curr)
-#     add_fruit_to_load_list(cursor=snow_curr)
+    if streamlit.button("Get fruit load list"):
+        add_fruit_load_list(cursor=snow_curr)
+
+    fruit_choice = streamlit.text_input("Which fruit would you like to add to the list?", "Jackfruit")
+    if streamlit.button("Get fruit load list"):
+        add_fruit_to_load_list(cursor=snow_curr)
 
 
 if __name__ == "__main__":
