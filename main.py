@@ -36,14 +36,17 @@ def add_fruityvice_table() -> None:
     Call the Fruityvice API and display the response.
     """
     streamlit.header("Fruityvice Data")
-    fruit_choice = streamlit.text_input("Which fruit would you like information about?", "Kiwi")
     
-    streamlit.write(f"The user chose {fruit_choice}")
-    endpoint = f"https://fruityvice.com/api/fruit/{fruit_choice}"
-    
-    fruityvice_normalized = pd.json_normalize(requests.get(endpoint).json())
-    streamlit.dataframe(fruityvice_normalized)
-    
+    try:
+        fruit_choice = streamlit.text_input("Which fruit would you like information about?", "Kiwi")
+        if not fruit_choice:
+            streamlit.error("Please select a fruit.")
+        else:
+            endpoint = f"https://fruityvice.com/api/fruit/{fruit_choice}"
+
+            fruityvice_normalized = pd.json_normalize(requests.get(endpoint).json())
+            streamlit.dataframe(fruityvice_normalized)
+
 
 def add_snowflake_user_details(cursor) -> None:
     """
