@@ -44,23 +44,38 @@ def add_fruityvice_table() -> None:
     streamlit.dataframe(fruityvice_normalized)
     
 
-def add_snowflake_user_details() -> None:
-    snow_conn = snowflake.connector.connect(**streamlit.secrets["snowflake"])
-    snow_curr = snow_conn.cursor()
-    snow_curr.execute("SELECT CURRENT_USER(), CURRENT_ACCOUNT(), CURRENT_REGION()")
+def add_snowflake_user_details(cursor) -> None:
+    """
+    Writie details about the Snowflake user currently connected.
+    """
+    cursor.execute("SELECT CURRENT_USER(), CURRENT_ACCOUNT(), CURRENT_REGION()")
 
     streamlit.text("Hello from Snowflake:")
-    streamlit.text(snow_curr.fetchone())
+    streamlit.text(cursor.fetchone())
+    
+    
+def add_fruit_load_list(cursor) -> None:
+    """
+    Display the fruit load list from the database.
+    """
+    cursor.execute("SELECT * FROM PC_RIVERY_DB.PUBLIC.FRUIT_LOAD_LIST")
+    
+    streamlit.text("Fruit load list contents:")
+    streamlit.dataframe(cursor.fetchall())
     
     
 def main() -> None:
     """
     Entry point into the application.
     """
+    snow_conn = snowflake.connector.connect(**streamlit.secrets["snowflake"])
+    snow_curr = snow_conn.cursor()
+    
     add_text()
     add_fruit_selection()
     add_fruityvice_table()
-    add_snowflake_user_details()
+    add_snowflake_user_details(cursor=snow_curr)
+    add_fruit_load_list(cursor=snow_curr)
 
 
 if __name__ == "__main__":
