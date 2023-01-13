@@ -44,6 +44,15 @@ def add_fruityvice_table() -> None:
     streamlit.dataframe(fruityvice_normalized)
     
 
+def add_snowflake_user_details() -> None:
+    snow_conn = snowflake.connector.connect(**streamlit.secrets["snowflake"])
+    snow_curr = snow_conn.cursor()
+    snow_curr.execute("SELECT CURRENT_USER(), CURRENT_ACCOUNT(), CURRENT_REGION()")
+
+    streamlit.text("Hello from Snowflake:")
+    streamlit.text(snow_curr.fetchone())
+    
+    
 def main() -> None:
     """
     Entry point into the application.
