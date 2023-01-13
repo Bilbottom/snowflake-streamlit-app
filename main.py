@@ -98,7 +98,7 @@ def main() -> None:
         add_fruit_load_list(cursor=snow_curr)
 
     fruit_choice = streamlit.text_input("Which fruit would you like to add to the list?", "Jackfruit")
-    if streamlit.button("Get fruit load list"):
+    if streamlit.button("Add fruit to list"):
         add_fruit_to_load_list(cursor=snow_curr)
 
 
