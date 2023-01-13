@@ -5,6 +5,7 @@ import pandas as pd
 import requests
 import snowflake.connector
 import streamlit
+from urllib.error import URLError
 
 
 def add_text() -> None:
@@ -64,6 +65,20 @@ def add_fruit_load_list(cursor) -> None:
     streamlit.dataframe(cursor.fetchall())
     
     
+def add_fruit_to_load_list(cursor) -> None:
+    """
+    Display the fruit load list from the database.
+    """
+    fruit_choice = streamlit.text_input("Which fruit would you like to add to the list?", "Jackfruit")
+    
+    streamlit.write(f"Thanks for adding {fruit_choice}")
+    
+    cursor.execute(f"""
+        INSERT INTO PC_RIVERY_DB.PUBLIC.FRUIT_LOAD_LIST
+        VALUES ('{fruit_choice}')
+    """)
+    
+    
 def main() -> None:
     """
     Entry point into the application.
@@ -76,6 +91,7 @@ def main() -> None:
     add_fruityvice_table()
     add_snowflake_user_details(cursor=snow_curr)
     add_fruit_load_list(cursor=snow_curr)
+#     add_fruit_to_load_list(cursor=snow_curr)
 
 
 if __name__ == "__main__":
